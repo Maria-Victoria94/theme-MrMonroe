@@ -1,5 +1,5 @@
 {
-  "name": "@juo/theme-skeleton",
+  "name": "@juo/theme-MrMonroe",
   "type": "module",
   "scripts": {
     "build": "pnpm run lint && pnpm run clean && vite build",
@@ -39,7 +39,7 @@
     "zod": "^3.22.4"
   },
   "config": {
-    "store": "example.myshopify.com"
+    "store": "mrmonroecoffee.myshopify.com"
   },
   "browserslist": "defaults, not op_mini all",
   "lint-staged": {
