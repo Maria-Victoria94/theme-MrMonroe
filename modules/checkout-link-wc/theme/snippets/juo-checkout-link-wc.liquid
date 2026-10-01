@@ -1,0 +1,17 @@
+{%- comment -%}
+  data-hide-when-active: comma-separated CSS selector list. Any matching
+  element anywhere on the page is hidden while the cart contains a fixed/
+  selling plan (handled by hide-controller.ts), and restored otherwise.
+  Wire to a section setting (e.g. section.settings.juo_hide_selectors) to make
+  it merchant-configurable from the theme editor; leave blank to disable.
+
+  native-fetch: add this boolean attribute only if the merchant's theme
+  monkey-patches window.fetch (bundle apps like Kaching Bundles) and that breaks
+  the cart swap. It routes just the checkout-swap cart writes (cart/clear +
+  cart/add.js) through a pristine fetch from a hidden iframe. Off by default.
+{%- endcomment -%}
+<juo-checkout-link
+  data-hide-when-active="[name='checkout'], .cart__checkout-button"
+>
+  {{- 'sections.cart.checkout_local_payments' | t -}}
+</juo-checkout-link>

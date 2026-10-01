@@ -1,0 +1,26 @@
+{% comment %} 
+Usage:
+{% render 'is-prepaid-plan' with has_prepaid %}
+
+{% if has_prepaid == true %}
+  Perform actions for prepaid plans...
+{% endif %}
+{% endcomment %}
+
+{% liquid
+  assign has_prepaid = false
+
+  for item in cart.items
+    assign plan = item.selling_plan_allocation.selling_plan
+    if plan
+      assign bp = plan.billing_policy
+      assign dp = plan.delivery_policy
+      if bp and dp
+        if bp.interval == dp.interval and bp.interval_count > dp.interval_count
+          assign has_prepaid = true
+          break
+        endif
+      endif
+    endif
+  endfor
+%}
