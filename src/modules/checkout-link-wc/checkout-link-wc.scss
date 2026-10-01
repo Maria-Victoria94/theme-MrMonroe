@@ -1,0 +1,177 @@
+// Cosmetic defaults wrapped in :where() so any theme class on the host
+// overrides them without a specificity war.
+:where(juo-checkout-link) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: var(--juo-cl-height);
+  padding: 12px 16px;
+  position: relative;
+  background-color: var(--juo-cl-color-primary);
+  color: var(--juo-cl-color-text);
+  border: none;
+  border-radius: var(--juo-cl-border-radius);
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  user-select: none;
+
+  --juo-cl-color-primary: #be7c4d;
+  --juo-cl-color-text: #fff;
+  --juo-cl-border-radius: 0;
+  --juo-cl-height: auto;
+
+  &[aria-disabled="true"] {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+// Toggled by hide-controller.ts on arbitrary page elements while a
+// fixed/selling-plan checkout is available. !important so it beats the
+// theme's own display rules on the hidden target.
+.juo-hidden-by-checkout {
+  display: none !important;
+}
+
+// Behavior selectors — full specificity so themes can't accidentally
+// reveal the element while it's idle/loading.
+juo-checkout-link {
+  &:not([data-state]),
+  &[data-state="idle"],
+  &[data-state="loading"] {
+    display: none;
+  }
+
+  &[data-state="processing"],
+  &[data-state="success"] {
+    color: transparent;
+
+    > * {
+      visibility: hidden;
+    }
+  }
+
+  &[data-state="processing"]::after,
+  &[data-state="success"]::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: var(--juo-cl-color-text);
+    border-radius: 50%;
+    animation: juo-cl-spin 0.6s linear infinite;
+    flex-shrink: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &[data-state="error"] {
+    animation: juo-cl-shake 0.4s ease-in-out;
+  }
+}
+
+@keyframes juo-cl-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes juo-cl-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* When the Juo button is live (cart has a fixed plan), adjust current page */
+// .cart__ctas:has(juo-checkout-link[data-state="ready"]),
+// .cart__ctas:has(juo-checkout-link[data-state="processing"]),
+// .cart__ctas:has(juo-checkout-link[data-state="success"]) {
+//   /* target the theme's own button, e.g. */
+//   [name="checkout"],
+//   .cart__checkout-button {
+//     display: none !important;
+//   }
+// }
+
+// ---------------------------------------------------------------------------
+// MrMonroe: stacked "Pay with" buttons (cart-checkout-buttons.liquid)
+// ---------------------------------------------------------------------------
+.cart-checkout-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  flex: 1 0 100%;
+
+  > * {
+    width: 100%;
+    margin: 0;
+  }
+
+  .button-text {
+    text-transform: none;
+  }
+}
+
+.cart-checkout-button__inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  width: auto;
+  white-space: nowrap;
+}
+
+.cart-checkout-button__icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  flex: 0 0 auto;
+}
+
+.cart-checkout-button__icons .cart-checkout-button__icon {
+  display: block;
+  width: auto;
+  max-width: none;
+  flex: 0 0 auto;
+  height: 1.4em;
+  max-height: 1.4em;
+}
+
+.cart-checkout-button__icons .cart-checkout-button__icon--ideal {
+  height: 1.8em;
+  max-height: 1.8em;
+}
+
+.cart-checkout-button__icons .cart-checkout-button__icon--visa,
+.cart-checkout-button__icons .cart-checkout-button__icon--mastercard {
+  height: 1.5em;
+  max-height: 1.5em;
+}
+
+.cart-checkout-button__icons .cart-checkout-button__icon--paypal {
+  height: 1.2em;
+  max-height: 1.2em;
+}

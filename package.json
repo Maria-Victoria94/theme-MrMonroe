@@ -5,7 +5,7 @@
     "build": "pnpm run lint && pnpm run clean && vite build",
     "clean": "rm -fr dist/*",
     "dev": "pnpm run theme:pull && pnpm run clean && (pnpm run dev:vite & pnpm run dev:shopify)",
-    "push": "shopify theme push --path=dist --store=$npm_package_config_store",
+    "push": "shopify theme push --path=dist -t 191639617860 --store=$npm_package_config_store",
     "dev:pull": "shopify theme pull -d --path=.theme --store=$npm_package_config_store",
     "dev:vite": "vite",
     "dev:shopify": "shopify theme dev --path=dist --store=$npm_package_config_store",
