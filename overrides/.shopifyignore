@@ -1,1 +1,4 @@
 assets/*.json
+
+assets/.vite/*
+assets/.vite/**
